@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Consent</title>
+
+
+  <style>
+body, html
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+#cookies-banner{
+  font-size: 0.9rem;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  bottom: 0;
+  color: white;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+.cookiecontainer {
+ text-align: center;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+.consentitem
+{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  padding: 20px;
+}
+
+
+#allow,
+#decline {
+  width: 80px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 8px;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid rgba(211, 211, 211, 0.3);
+  background-color: #1a1a1a;
+  color: white;
+}
+
+#decline {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+
+  </style>
+</head>
+<body>
+<div id="cookies-banner">
+    <div class="cookiecontainer">
+      <div class="consentitem">
+        <p>
+         Wir nutzen Cookies für das Google Ads Conversion Tracking für Website-Analysen. Es werden statistische Daten darüber gespeichert, wie der Besucher die Website nutzt.</p>
+         <button id="allow">akzeptieren</button>
+         <button id="decline">ablehnen</button>
+      </div>
+    </div>
+  </div>
+<script>
+
+let acceptDecline = localStorage.getItem("cookie") ? JSON.parse(localStorage.getItem("cookie")) : "";
+const cookiesBanner = document.querySelector("#cookies-banner");
+
+// localStorage.clear()
+
+function loadGoogleTagScript() {
+  // load script here
+}
+
+function setCookie() {
+  acceptDecline = "akzeptiert";
+  localStorage.setItem("cookie", JSON.stringify(acceptDecline));
+  cookiesBanner.style.display = "none";
+
+  // Load the Google Tag script
+  loadGoogleTagScript();
+  console.log('Tag script loaded');
+}
+
+document.querySelector("#allow").addEventListener("click", setCookie)
+
+document.querySelector("#decline").addEventListener("click", () => {
+  acceptDecline = "nichtakzeptiert";
+  localStorage.setItem("cookie", JSON.stringify(acceptDecline));
+  cookiesBanner.style.display = "none";
+  console.log('Tag script not loaded');
+})
+
+if (acceptDecline == "akzeptiert") {
+  loadGoogleTagScript();
+  cookiesBanner.style.display = "none";
+  console.log('Tag script loaded');
+} else if(acceptDecline == "nichtakzeptiert")
+{
+  cookiesBanner.style.display = "none";
+  console.log('Tag script not loaded');
+}
+
+  </script>
+
+</body>
+</html>
